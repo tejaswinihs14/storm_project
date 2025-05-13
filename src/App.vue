@@ -1,9 +1,29 @@
 <script setup>
+import { ref, watch, provide } from "vue";
+import Navbar from "./components/Navbar.vue";
 import ProductsTable from "./components/ProductsTable.vue";
+
+const searchInput = ref(""); // Bound to the search bar
+const searchTerm = ref(""); // Used for filtering
+
+function doSearch() {
+  searchTerm.value = searchInput.value;
+}
+
+watch(searchInput, (val) => {
+  if (val === "") {
+    searchTerm.value = "";
+  }
+});
+
+provide("searchInput", searchInput);
+provide("doSearch", doSearch);
+provide("searchTerm", searchTerm);
 </script>
 
 <template>
   <div class="app-dimension-container">
+    <Navbar />
     <ProductsTable />
   </div>
 </template>
