@@ -4,8 +4,8 @@
 <script setup></script>
 <style scoped lang="scss">
 .no-image-placeholder {
-  width: 180px;
-  height: 180px;
+  width: 314px;
+  height: 303px;
   display: flex;
   align-items: center;
   justify-content: center;

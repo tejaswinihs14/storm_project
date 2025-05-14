@@ -35,6 +35,5 @@ provide("searchTerm", searchTerm);
   margin: 0 auto;
   background: #fff;
   box-sizing: border-box;
-  /* Optionally add overflow hidden or auto if needed */
 }
 </style>

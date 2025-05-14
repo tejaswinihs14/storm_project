@@ -1,30 +1,42 @@
 <template>
   <div class="modal-overlay" @click.self="$emit('close')">
     <div class="modal-content">
-      <button class="modal-close" @click="$emit('close')">&times;</button>
-      <img
-        v-if="product.image"
-        :src="product.image"
-        :alt="product.product"
-        class="modal-image"
-      />
-      <NoImagePlaceholder v-else />
-      <h2 class="modal-title">{{ product.product }}</h2>
-      <div
-        v-if="product.features && product.features.length"
-        class="modal-features"
-      >
-        <strong>Key Features</strong>
-        <ul>
-          <li v-for="(feature, i) in product.features" :key="i">
-            {{ feature }}
-          </li>
-        </ul>
+      <button class="modal-close" @click="$emit('close')">
+        <img src="../assets/Close.png" alt="Close Icon" class="close-Icon" />
+      </button>
+      <div class="modal-header">
+        <span class="modal-title">{{ product.product }}</span>
       </div>
-      <p class="modal-description">
-        {{ product.description || "No description available." }}
-      </p>
-      <button class="modal-close-btn" @click="$emit('close')">Close</button>
+      <div class="modal-main-content">
+        <div class="modal-image-container">
+          <img
+            v-if="product.image"
+            :src="product.image"
+            :alt="product.product"
+            class="modal-image"
+          />
+          <NoImagePlaceholder v-else />
+        </div>
+        <div class="modal-features-desc">
+          <div
+            v-if="product.features && product.features.length"
+            class="modal-features"
+          >
+            <strong>Key Features</strong>
+            <ul>
+              <li v-for="(feature, i) in product.features" :key="i">
+                {{ feature }}
+              </li>
+            </ul>
+          </div>
+          <p class="modal-description">
+            {{ product.description || "No description available." }}
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close-btn" @click="$emit('close')">Close</button>
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +45,8 @@ import NoImagePlaceholder from "./NoImagePlaceholder.vue";
 const props = defineProps({ product: { type: Object, required: true } });
 </script>
 <style scoped lang="scss">
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Nunito+Sans:wght@600&display=swap");
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -46,87 +60,116 @@ const props = defineProps({ product: { type: Object, required: true } });
   z-index: 1000;
 }
 .modal-content {
-  background: #fff;
-  border-radius: 12px;
-  padding: 32px 24px 24px 24px;
-  min-width: 320px;
-  max-width: 90vw;
-  min-height: 320px;
-  max-height: 90vh;
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.12);
-  position: relative;
+  width: 684px;
+  height: 616px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 40px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 16px;
+  position: relative;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.12);
 }
 .modal-close {
   position: absolute;
-  top: 12px;
-  right: 16px;
+  top: 22px;
+  right: 20px;
+  min-width: 40px;
+  min-height: 40px;
   background: none;
   border: none;
-  font-size: 2rem;
-  color: #888;
+  padding: 8px;
+  gap: 10px;
+}
+
+.close-Icon {
   cursor: pointer;
+  z-index: 2;
 }
-.modal-image {
-  width: 180px;
-  height: 180px;
-  object-fit: contain;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  background: #f3f3f3;
-}
-.modal-no-image {
-  width: 180px;
-  height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f3f3f3;
-  color: #aaa;
-  font-size: 1.2rem;
-  border-radius: 8px;
-  margin-bottom: 16px;
+.modal-header {
+  min-width: 400px;
+  min-height: 24px;
 }
 .modal-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 120%;
+  letter-spacing: 0%;
+  color: #1a1a1a;
+  width: 400px;
+  height: 24px;
+  text-align: left;
+}
+.modal-main-content {
+  width: 604px;
+  height: 456px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+.modal-image-container {
+  width: 314px;
+  height: 303px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 17px;
+}
+.modal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #ffffff;
+}
+.modal-features-desc {
+  width: 273px;
+  height: 365px;
+  margin-top: 20px;
+  padding-bottom: 0px;
+  font-family: "Nunito Sans", sans-serif;
+  line-height: 25px;
+  letter-spacing: 0%;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
 }
 .modal-features {
-  margin-bottom: 12px;
   text-align: left;
-  width: 100%;
-  max-width: 400px;
-  ul {
-    margin: 0 0 0 18px;
-    padding: 0;
-    li {
-      font-size: 1rem;
-      margin-bottom: 4px;
-    }
-  }
+  width: fit-content;
+  height: fit-content;
+  font-weight: 600;
 }
 .modal-description {
-  color: #555;
   text-align: left;
-  max-width: 400px;
+  font-weight: 400;
+  width: fit-content;
+  height: fit-content;
+}
+.modal-footer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: auto;
 }
 .modal-close-btn {
-  margin-top: 18px;
-  background: #6366f1;
-  color: #fff;
+  width: 88px;
+  height: 44px;
+  border-radius: 4px;
+  padding: 12px 24px;
+  gap: 4px;
+  background: #f9f9fb;
+  color: #1a1a1a;
   border: none;
-  border-radius: 6px;
-  padding: 8px 32px;
-  font-size: 1rem;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s;
-  &:hover {
-    background: #4f46e5;
-  }
+  box-shadow: none;
 }
 </style>
