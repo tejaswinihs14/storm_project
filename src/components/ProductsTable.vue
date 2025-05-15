@@ -174,7 +174,7 @@ async function preloadImages(products) {
 
 onMounted(async () => {
   isLoading.value = true;
-  const res = await fetch("/products.json");
+  const res = await fetch(`${import.meta.env.BASE_URL}products.json`);
   const data = await res.json();
   products.value = data;
   // Preload images after fetching products
