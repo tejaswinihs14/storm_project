@@ -22,130 +22,99 @@
               @click="sortBy('quantity')"
             >
               Quantity
-              <span
-                class="sort-arrow"
-                :class="{ invisible: sortKey !== 'quantity' }"
-              >
-                <svg
-                  v-if="sortOrder === 'asc' && sortKey === 'quantity'"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M7 14l5-5 5 5"
-                    stroke="#605dec"
-                    stroke-width="2"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <svg
-                  v-else-if="sortKey === 'quantity'"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M7 10l5 5 5-5"
-                    stroke="#605dec"
-                    stroke-width="2"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </span>
             </th>
             <th
               class="cell-product border-right sortable"
               @click="sortBy('product')"
             >
               Product name
-              <span
-                class="sort-arrow"
-                :class="{ invisible: sortKey !== 'product' }"
-              >
-                <svg
-                  v-if="sortOrder === 'asc' && sortKey === 'product'"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M7 14l5-5 5 5"
-                    stroke="#605dec"
-                    stroke-width="2"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <svg
-                  v-else-if="sortKey === 'product'"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M7 10l5 5 5-5"
-                    stroke="#605dec"
-                    stroke-width="2"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </span>
             </th>
             <th class="cell-prices sortable" @click="sortBy('total')">
-              Prices
-              <span
-                class="sort-arrow"
-                :class="{ invisible: sortKey !== 'total' }"
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  width: 100%;
+                "
               >
-                <svg
-                  v-if="sortOrder === 'asc' && sortKey === 'total'"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
+                <span style="flex: 1; text-align: center">Prices</span>
+                <span
+                  class="sort-arrow"
+                  style="
+                    margin-left: 10px;
+                    min-width: 18px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                  "
                 >
-                  <path
-                    d="M7 14l5-5 5 5"
-                    stroke="#605dec"
-                    stroke-width="2"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <svg
-                  v-else-if="sortKey === 'total'"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M7 10l5 5 5-5"
-                    stroke="#605dec"
-                    stroke-width="2"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </span>
+                  <svg
+                    v-if="sortKey === 'total' && sortOrder === 'desc'"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7 10l5 5 5-5"
+                      stroke="#1a1a1a"
+                      stroke-width="2"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <svg
+                    v-else-if="sortKey === 'total' && sortOrder === 'asc'"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7 14l5-5 5 5"
+                      stroke="#1a1a1a"
+                      stroke-width="2"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <svg v-else width="16" height="16" viewBox="0 0 24 24">
+                    <path
+                      d="M7 10l5 5 5-5"
+                      stroke="#1a1a1a"
+                      stroke-width="2"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+              </div>
             </th>
           </tr>
         </thead>
         <tbody>
+          <tr v-if="isLoading">
+            <td colspan="5" class="loading-message">
+              <span class="spinner"></span>
+            </td>
+          </tr>
           <tr
             v-for="(product, idx) in filteredProducts"
             :key="product.id"
             style="cursor: default"
           >
-            <td class="cell-id with-right-border">{{ product.id }}</td>
+            <td
+              class="cell-id with-right-border clickable-cell"
+              @click="openModal(product)"
+              tabindex="0"
+              role="button"
+              aria-label="Open product details by ID"
+              @keydown.enter="openModal(product)"
+            >
+              {{ product.id }}
+            </td>
             <td class="cell-status with-right-border">
               <div :class="['status-badge', statusClass(idx)]">Status</div>
             </td>
@@ -156,13 +125,17 @@
               class="cell-product border-right clickable-cell"
               style="text-align: left"
               @click="openModal(product)"
+              tabindex="0"
+              role="button"
+              aria-label="Open product details by name"
+              @keydown.enter="openModal(product)"
             >
               <div class="product-title">{{ product.product }}</div>
               <div class="product-serial">{{ product.serial }}</div>
             </td>
             <td class="cell-prices">${{ product.total.toFixed(2) }}</td>
           </tr>
-          <tr v-if="filteredProducts.length === 0">
+          <tr v-if="!isLoading && filteredProducts.length === 0">
             <td colspan="5" class="not-found-message">Item not found</td>
           </tr>
         </tbody>
@@ -178,17 +151,20 @@
 <script setup>
 import { ref, onMounted, inject, computed } from "vue";
 import ProductModal from "./ProductModal.vue";
+const isLoading = ref(true);
 const searchTerm = inject("searchTerm", ref(""));
 
 const products = ref([]);
 // const filteredProducts = ref([]);
 const selectedProduct = ref(null);
-const sortKey = ref("");
-const sortOrder = ref("asc");
+const sortKey = ref("total");
+const sortOrder = ref("desc");
 
 onMounted(async () => {
+  isLoading.value = true;
   const res = await fetch("/products.json");
   products.value = await res.json();
+  isLoading.value = false;
   // filteredProducts.value = products.value;
 });
 
@@ -254,14 +230,15 @@ const filteredProducts = computed(() => {
 
 <style scoped lang="scss">
 .products-table-container {
-  width: 1184px;
-  min-height: 616px;
+  width: 100%;
+  max-width: 1184px;
   margin-top: 6px;
-  margin-left: 128px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: auto;
   border-radius: 8px;
   border: 1px solid #e4e4ef;
   background: #fff;
-  overflow: hidden;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -270,10 +247,16 @@ const filteredProducts = computed(() => {
 
 .products-table {
   width: 100%;
-  height: 100%;
+  min-width: 360px;
+  height: auto;
   border-collapse: separate;
   border-spacing: 0;
   background: #fff;
+  table-layout: fixed;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: none;
+  overflow: hidden;
 }
 
 th,
@@ -282,7 +265,7 @@ td {
   box-shadow: 0px -1px 0px 0px #e4e4ef inset;
   border: none;
   padding: 0;
-  font-family: Nunito Sans, sans-serif;
+  /* font-family: Nunito Sans, sans-serif; */
   vertical-align: middle;
 }
 
@@ -292,6 +275,8 @@ th {
   line-height: 20px;
   color: #1a1a1a;
   height: 56px;
+  text-align: center;
+  vertical-align: middle;
 }
 
 td {
@@ -329,7 +314,9 @@ td {
 .cell-prices {
   width: 171px;
   text-align: right;
-  padding: 18px 16px;
+  font-size: 15px;
+  padding: 16px 12px 16px 8px;
+  padding-right: 4px;
 }
 
 .product-title {
@@ -356,7 +343,7 @@ td {
   font-weight: 700;
   min-width: 83px;
   min-height: 20px;
-  font-family: Nunito Sans, sans-serif;
+  /* font-family: Nunito Sans, sans-serif; */
   text-align: center;
 }
 
@@ -389,7 +376,7 @@ td {
 .products-label {
   width: 67px;
   height: 20px;
-  font-family: Nunito Sans, sans-serif;
+  /* font-family: Nunito Sans, sans-serif; */
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
@@ -399,7 +386,7 @@ td {
 .results-count {
   width: 86px;
   height: 20px;
-  font-family: Nunito Sans, sans-serif;
+  /* font-family: Nunito Sans, sans-serif; */
   font-weight: 400;
   font-size: 12px;
   line-height: 20px;
@@ -407,12 +394,23 @@ td {
   margin-left: 10px;
 }
 
+.loading-message {
+  text-align: center;
+  color: #605dec;
+  font-size: 18px;
+  /* font-family: Nunito Sans; */
+  height: 56px;
+  vertical-align: middle;
+  padding: 16px 8px;
+}
+
 .not-found-message {
   text-align: center;
   color: #aaa;
   font-size: 18px;
-  font-family: Nunito Sans;
+  /* font-family: Nunito Sans; */
   height: 56px;
+  padding: 16px 8px;
 }
 
 .border-right {
@@ -437,7 +435,136 @@ td {
   cursor: pointer;
   transition: background 0.15s;
 }
-.clickable-cell:hover {
-  background: #f7f7fd;
+
+/* MOBILE: below 600px */
+@media screen and (max-width: 599px) {
+  .products-table-container {
+    margin-left: 8px;
+    margin-right: 8px;
+    padding: 0;
+    max-width: 320px;
+  }
+  .products-table {
+    max-width: 320px;
+    font-size: 13px;
+  }
+  .cell-id,
+  .cell-status,
+  .cell-quantity,
+  .cell-prices {
+    display: none;
+  }
+  .cell-product {
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+    padding: 12px 8px;
+  }
+  th.cell-product {
+    text-align: center;
+    font-size: 15px;
+    padding: 12px 8px;
+  }
+  th:not(.cell-product),
+  td:not(.cell-product) {
+    display: none;
+  }
+  .not-found-message-outer,
+  .loading-message {
+    font-size: 15px;
+    padding: 24px 4px 32px 4px;
+    height: auto;
+    min-height: 48px;
+  }
+}
+
+/* TABLET, DESKTOP, MONITOR: 600px and above */
+@media screen and (min-width: 600px) {
+  .products-table-container {
+    margin-left: 128px;
+    margin-right: 32px;
+    max-width: 1184px;
+  }
+  .products-table {
+    min-width: 900px;
+    font-size: 15px;
+    overflow-x: auto;
+  }
+  .cell-id,
+  .cell-status,
+  .cell-quantity,
+  .cell-product,
+  .cell-prices {
+    display: table-cell;
+  }
+  .cell-id {
+    width: 70px;
+    text-align: center;
+    font-size: 15px;
+    padding: 16px 8px;
+  }
+  .cell-status {
+    width: 120px;
+    text-align: center;
+    font-size: 15px;
+    padding: 16px 8px;
+  }
+  .cell-quantity {
+    width: 100px;
+    text-align: center;
+    font-size: 15px;
+    padding: 16px 8px;
+  }
+  .cell-product {
+    width: auto;
+    text-align: left;
+    font-size: 16px;
+    padding: 16px 8px;
+  }
+  th.cell-product {
+    text-align: center;
+    font-size: 16px;
+    padding: 16px 8px;
+  }
+  .cell-prices {
+    width: 171px;
+    text-align: right;
+    font-size: 15px;
+    padding: 16px 8px;
+  }
+  th {
+    text-align: center;
+  }
+  .not-found-message-outer,
+  .loading-message {
+    font-size: 18px;
+    padding: 24px 8px 32px 8px;
+    min-height: 56px;
+  }
+}
+
+th.cell-product {
+  text-align: center;
+}
+
+.spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid #e4e4ef;
+  border-top: 3px solid #605dec;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

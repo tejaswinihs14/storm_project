@@ -172,4 +172,67 @@ const props = defineProps({ product: { type: Object, required: true } });
   transition: background 0.2s;
   box-shadow: none;
 }
+
+@media (max-width: 600px) {
+  .modal-content {
+    width: 95vw;
+    max-width: 98vw;
+    min-width: unset;
+    height: auto;
+    min-height: unset;
+    padding: 16px 8px 16px 8px;
+    border-radius: 8px;
+    gap: 8px;
+  }
+  .modal-header {
+    min-width: unset;
+    min-height: 20px;
+  }
+  .modal-title {
+    font-size: 16px;
+    width: 100%;
+    height: auto;
+  }
+  .modal-main-content {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .modal-image-container {
+    width: 100%;
+    height: 180px;
+    margin-top: 0;
+  }
+  .modal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .modal-features-desc {
+    width: 100%;
+    height: auto;
+    margin-top: 8px;
+    font-size: 11px;
+    line-height: 18px;
+  }
+  .modal-footer {
+    width: 100%;
+    justify-content: center;
+    margin-top: 12px;
+  }
+  .modal-close {
+    top: 8px;
+    right: 8px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 4px;
+  }
+  .modal-close-btn {
+    width: 80px;
+    height: 36px;
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+}
 </style>

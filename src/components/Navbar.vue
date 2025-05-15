@@ -7,23 +7,59 @@
       <span>
         <img src="../assets/Group.svg" alt="storm image" class="logo-text"
       /></span>
+      <!-- Hamburger for mobile -->
+      <button class="hamburger-menu" @click="toggleMenu" aria-label="Open menu">
+        <img src="../assets/menu.png" alt="menu" />
+      </button>
+      <div
+        v-if="isMenuOpen"
+        class="mobile-menu-dropdown"
+        @click.self="closeMenu"
+      >
+        <button class="dropdown-item">
+          <img
+            src="../assets/Gear.png"
+            alt="Settings Icon"
+            class="dropdown-icon"
+          />
+          <span>Settings</span>
+        </button>
+        <button class="dropdown-item">
+          <img
+            src="../assets/Notifications.png"
+            alt="Notifications Icon"
+            class="dropdown-icon"
+          />
+          <span>Notifications</span>
+        </button>
+        <button class="dropdown-item">
+          <img
+            src="../assets/icon.png"
+            alt="person icon"
+            class="dropdown-icon"
+          />
+          <span>Adriana Arias</span>
+        </button>
+      </div>
     </div>
     <div class="search-group">
-      <input
-        type="text"
-        class="search-input"
-        placeholder="Search"
-        v-model="searchInput"
-      />
+      <div class="search-input-wrapper">
+        <img src="../assets/search.png" alt="search icon" class="search-icon" />
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search"
+          v-model="searchInput"
+          @keyup.enter="doSearch"
+        />
+      </div>
       <button class="search-btn" @click="doSearch">Search</button>
     </div>
     <div class="navbar-right">
       <span class="icon-wrapper">
-        <!-- Settings icon SVG -->
         <img src="../assets/Gear.png" alt="settings Icon" class="icon-btn" />
       </span>
       <span class="icon-wrapper">
-        <!-- Notification icon SVG -->
         <img
           src="../assets/Notifications.png"
           alt="Notifications icon"
@@ -32,7 +68,6 @@
       </span>
       <span class="user-group">
         <span class="icon-wrapper icon-btn">
-          <!-- User icon SVG -->
           <img src="../assets/icon.png" alt="person icon" class="user-icon" />
         </span>
         <span class="username icon-btn">Adriana Arias</span>
@@ -41,150 +76,290 @@
   </nav>
 </template>
 <script setup>
-import { inject } from "vue";
+import { ref, inject, onMounted, onBeforeUnmount } from "vue";
 const searchInput = inject("searchInput");
 const doSearch = inject("doSearch");
+const isMenuOpen = ref(false);
+function toggleMenu() {
+  isMenuOpen.value = !isMenuOpen.value;
+}
+function closeMenu() {
+  isMenuOpen.value = false;
+}
+// Close dropdown on outside click
+function handleClickOutside(event) {
+  if (
+    !event.target.closest(".hamburger-menu") &&
+    !event.target.closest(".mobile-menu-dropdown")
+  ) {
+    isMenuOpen.value = false;
+  }
+}
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+});
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
+
 <style scoped lang="scss">
+// MOBILE-FIRST STYLES (default)
 .navbar {
-  width: 1186px;
-  height: 44px;
-  margin-top: 80px;
-  margin-left: 128px;
-  margin-right: 126px;
-  /* margin-bottom: 900px;s */
-  display: flex;
-  /* /* align-items: center; */
-  justify-content: space-between;
-  /* position: absolute; */
-  background: #fff;
-  box-sizing: border-box;
+  width: 100vw;
+  min-width: 0;
   padding: 0;
+
+  background: #fff;
+  box-shadow: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 .logo-group {
+  margin-top: 40px;
+  margin-left: 24px;
   display: flex;
   align-items: center;
-  width: 210px;
   height: 44px;
-  .logo-icon {
-    width: 46.63px;
-    height: 43.99px;
-    /* margin-right: 10px;
-    display: flex;
-    align-items: center; */
-  }
-  .logo-text {
-    /* font-size: 40px;
-    font-weight: 500; */
-    color: #1a1a1a;
-    /* letter-spacing: 1px; */
-    /* line-height: 44px; */
-    height: 31.83px;
-    width: 154.93px;
-    /* left: 54.59px; */
+  padding: 24px 16px 0 16px;
+}
+.logo-icon {
+  width: 46px;
+  height: 44px;
+}
+.logo-text {
+  color: #1a1a1a;
+  height: 32px;
+  width: 155px;
+  margin-left: 8px;
+}
+.hamburger-menu {
+  display: block;
+  background: none;
+  border: none;
+  margin-left: auto;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  img {
+    width: 28px;
+    height: 28px;
   }
 }
 .search-group {
+  width: 100%;
+  max-width: 350px;
+  margin: 16px auto 0 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+  height: 44px;
   display: flex;
   align-items: center;
-  width: 373px;
+}
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.search-input {
+  width: 100%;
+  min-width: 0;
   height: 44px;
-  gap: 16px;
-  margin-left: 317px;
+  padding-left: 40px;
+  border: 1px solid #ececec;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+  transition: border 0.2s;
+  color: #000;
+  font-family: inherit;
+  &:focus {
+    border-color: #b3b3ff;
+  }
+}
+.search-btn {
+  min-width: 97px;
+  height: 44px;
+  text-align: center;
+  border-radius: 4px;
+  padding: 12px 24px;
+  gap: 4px;
+  background: #605dec;
+  color: #fff;
+  border: none;
+  font-size: 15px;
+  transition: background 0.2s;
+  cursor: pointer;
+  &:hover {
+    background: #344293;
+  }
+}
+.navbar-right {
+  display: none;
+}
+
+// DESKTOP STYLES
+@media (min-width: 600px) {
+  .navbar {
+    width: 1186px;
+    height: 44px;
+    margin-top: 80px;
+    margin-left: 128px;
+    margin-right: 126px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    box-sizing: border-box;
+    padding: 0;
+    position: relative;
+  }
+  .logo-group {
+    padding: 0;
+    width: 210px;
+    height: 44px;
+    margin: 0;
+  }
+  .logo-icon {
+    width: 46.63px;
+    height: 43.99px;
+  }
+  .logo-text {
+    height: 31.83px;
+    width: 154.93px;
+    margin-left: 0;
+  }
+  .hamburger-menu {
+    display: none;
+  }
+  .search-group {
+    width: 373px;
+    height: 44px;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
+  .search-input-wrapper {
+    width: 100%;
+    height: 44px;
+  }
   .search-input {
     width: 260px;
     height: 44px;
-    border: 1px solid #ececec;
-    border-radius: 6px;
-    padding: 0 16px;
+    padding: 0 16px 0 40px;
     font-size: 16px;
-    outline: none;
-    background: #fff;
-    transition: border 0.2s;
-    &:focus {
-      border-color: #b3b3ff;
-    }
   }
   .search-btn {
     width: 97px;
     height: 44px;
-    gap: 4px;
-    border-radius: 4px;
-    padding-top: 12px;
-    padding-right: 24px;
-    padding-bottom: 12px;
-    padding-left: 24px;
-    background: #605dec;
-    color: #fff;
-    border: none;
     font-size: 16px;
-    cursor: pointer;
-    transition: background 0.2s;
-    &:hover {
-      background: #344293;
-    }
+    padding: 12px 24px;
   }
-}
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: 30px;
-  .icon-wrapper {
-    width: 44px;
-    height: 44px;
-  }
-  .icon-btn {
-    width: 44px;
-    height: 44px;
+  .navbar-right {
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: none;
-    cursor: pointer;
-  }
-  .user-group {
-    display: flex;
-    align-items: center;
-    width: 152px;
-    height: 44px;
     gap: 8px;
-    .user-icon {
-      width: 18px;
-      height: 18px;
-    }
-    .username {
-      color: #605dec;
-      font-family: Inter;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 2%;
-      vertical-align: middle;
-      width: 108px;
+    margin-left: 30px;
+    .icon-wrapper {
+      width: 44px;
       height: 44px;
     }
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: none;
+      cursor: pointer;
+    }
+    .user-group {
+      display: flex;
+      align-items: center;
+      width: 152px;
+      height: 44px;
+      gap: 8px;
+      .user-icon {
+        width: 18px;
+        height: 18px;
+      }
+      .username {
+        color: #605dec;
+        font-family: Inter;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 2%;
+        vertical-align: middle;
+        width: 108px;
+        height: 44px;
+      }
+    }
   }
 }
-@media (max-width: 900px) {
-  .navbar {
-    width: 100vw;
-    left: 0;
-    top: 0;
-    position: fixed;
-    z-index: 100;
-    padding: 0 8px;
+.mobile-menu-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 16px;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  z-index: 1001;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 8px 0;
+}
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  font-size: 15px;
+  color: #605dec;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover,
+  &:focus {
+    background: #f2f2ff;
   }
-  .logo-group,
-  .search-group,
-  .navbar-right {
-    width: auto;
-    min-width: 0;
-  }
-  .search-group {
-    width: 100%;
-    max-width: 300px;
-  }
+}
+.dropdown-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
+.dropdown-icon[alt="person icon"] {
+  width: 12px;
+  height: 12px;
+  margin: 0px 6px;
 }
 </style>
