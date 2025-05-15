@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-overlay" @click.self="$emit('close')">
+  <div class="modal" @click.self="$emit('close')">
     <div class="modal-content">
       <button class="modal-close" @click="$emit('close')">
         <img src="../assets/Close.png" alt="Close Icon" class="close-Icon" />
@@ -9,11 +9,16 @@
       </div>
       <div class="modal-main-content">
         <div class="modal-image-container">
+          <div v-if="isImageLoading && product.image" class="image-loading">
+            <span class="spinner"></span>
+          </div>
           <img
             v-if="product.image"
             :src="product.image"
             :alt="product.product"
             class="modal-image"
+            @load="isImageLoading = false"
+            @error="handleImageError"
           />
           <NoImagePlaceholder v-else />
         </div>
@@ -41,13 +46,21 @@
   </div>
 </template>
 <script setup>
+import { ref } from "vue";
 import NoImagePlaceholder from "./NoImagePlaceholder.vue";
+
 const props = defineProps({ product: { type: Object, required: true } });
+const isImageLoading = ref(true);
+
+function handleImageError() {
+  isImageLoading.value = false;
+  if (props.product.image) {
+    props.product.image = null;
+  }
+}
 </script>
 <style scoped lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Nunito+Sans:wght@600&display=swap");
-
-.modal-overlay {
+.modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -114,15 +127,19 @@ const props = defineProps({ product: { type: Object, required: true } });
   width: 314px;
   height: 303px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   margin-top: 17px;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
 }
 .modal-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
   background: #ffffff;
+  transition: opacity 0.3s ease;
 }
 .modal-features-desc {
   width: 273px;
@@ -173,6 +190,35 @@ const props = defineProps({ product: { type: Object, required: true } });
   box-shadow: none;
 }
 
+.image-loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9f9fb;
+  border-radius: 8px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e4e4ef;
+  border-top: 4px solid #605dec;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 600px) {
   .modal-content {
     width: 95vw;
@@ -202,7 +248,7 @@ const props = defineProps({ product: { type: Object, required: true } });
   .modal-image-container {
     width: 100%;
     height: 180px;
-    margin-top: 0;
+    margin-top: 8px;
   }
   .modal-image {
     width: 100%;
@@ -213,13 +259,10 @@ const props = defineProps({ product: { type: Object, required: true } });
     width: 100%;
     height: auto;
     margin-top: 8px;
-    font-size: 11px;
-    line-height: 18px;
+    padding: 0 8px;
   }
   .modal-footer {
-    width: 100%;
-    justify-content: center;
-    margin-top: 12px;
+    padding: 0 8px;
   }
   .modal-close {
     top: 8px;
@@ -233,6 +276,87 @@ const props = defineProps({ product: { type: Object, required: true } });
     height: 36px;
     font-size: 13px;
     padding: 8px 16px;
+  }
+}
+
+/* Small Mobile: below 340px */
+@media screen and (max-width: 339px) {
+  .modal-content {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    border-radius: 0;
+    padding: 12px;
+    margin: 0;
+  }
+
+  .modal-close {
+    top: 12px;
+    right: 12px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 4px;
+  }
+
+  .close-Icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .modal-header {
+    padding-right: 32px;
+  }
+
+  .modal-title {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .modal-main-content {
+    gap: 12px;
+  }
+
+  .modal-image-container {
+    height: 160px;
+    margin-top: 4px;
+  }
+
+  .modal-features-desc {
+    padding: 0 4px;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .modal-features {
+    margin-bottom: 8px;
+  }
+
+  .modal-features ul {
+    padding-left: 16px;
+    margin: 4px 0;
+  }
+
+  .modal-description {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .modal-footer {
+    padding: 0 4px;
+    margin-top: 12px;
+  }
+
+  .modal-close-btn {
+    width: 80px;
+    height: 36px;
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border-width: 3px;
   }
 }
 </style>

@@ -1,3 +1,10 @@
+<template>
+  <div class="app-dimension-container">
+    <Navbar />
+    <ProductsTable />
+  </div>
+</template>
+
 <script setup>
 import { ref, watch, provide } from "vue";
 import Navbar from "./components/Navbar.vue";
@@ -20,13 +27,6 @@ provide("searchInput", searchInput);
 provide("doSearch", doSearch);
 provide("searchTerm", searchTerm);
 </script>
-
-<template>
-  <div class="app-dimension-container">
-    <Navbar />
-    <ProductsTable />
-  </div>
-</template>
 
 <style scoped lang="scss">
 .app-dimension-container {

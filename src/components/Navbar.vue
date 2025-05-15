@@ -75,17 +75,21 @@
     </div>
   </nav>
 </template>
+
 <script setup>
 import { ref, inject, onMounted, onBeforeUnmount } from "vue";
 const searchInput = inject("searchInput");
 const doSearch = inject("doSearch");
 const isMenuOpen = ref(false);
+
+// Toggle hamburger-menu
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value;
 }
 function closeMenu() {
   isMenuOpen.value = false;
 }
+
 // Close dropdown on outside click
 function handleClickOutside(event) {
   if (
@@ -123,7 +127,6 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   height: 44px;
-  padding: 24px 16px 0 16px;
 }
 .logo-icon {
   width: 46px;
@@ -151,19 +154,18 @@ onBeforeUnmount(() => {
   }
 }
 .search-group {
-  width: 100%;
-  max-width: 350px;
+  width: 340px;
+  height: 44px;
   margin: 16px auto 0 24px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
-  padding: 0 16px;
+  gap: 16px;
   box-sizing: border-box;
 }
 .search-input-wrapper {
   position: relative;
-  width: 100%;
+  width: 229px;
   height: 44px;
   display: flex;
   align-items: center;
@@ -180,7 +182,6 @@ onBeforeUnmount(() => {
 }
 .search-input {
   width: 100%;
-  min-width: 0;
   height: 44px;
   padding-left: 40px;
   border: 1px solid #ececec;
@@ -196,24 +197,60 @@ onBeforeUnmount(() => {
   }
 }
 .search-btn {
-  min-width: 97px;
+  width: 97px;
   height: 44px;
   text-align: center;
+  margin-right: 4px;
   border-radius: 4px;
   padding: 12px 24px;
   gap: 4px;
   background: #605dec;
   color: #fff;
   border: none;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.02em;
   transition: background 0.2s;
   cursor: pointer;
+  white-space: nowrap;
   &:hover {
     background: #344293;
   }
 }
 .navbar-right {
   display: none;
+}
+
+/* Small Mobile: below 340px */
+@media screen and (max-width: 339px) {
+  .search-group {
+    width: calc(100% - 48px);
+    margin: 16px 24px 0;
+    gap: 8px;
+  }
+
+  .search-input-wrapper {
+    width: calc(100% - 105px);
+    min-width: 0;
+  }
+
+  .search-input {
+    font-size: 14px;
+    padding-left: 36px;
+  }
+
+  .search-icon {
+    width: 18px;
+    height: 18px;
+    left: 10px;
+  }
+
+  .search-btn {
+    width: 97px;
+    padding: 12px 16px;
+    font-size: 13px;
+  }
 }
 
 // DESKTOP STYLES
