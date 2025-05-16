@@ -9,13 +9,15 @@
 <script setup></script>
 
 <style scoped lang="scss">
+@import "../styles/_variables.scss";
+
 .no-image-placeholder {
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
+  background: $color-bg;
   border-radius: 8px;
 }
 
@@ -27,10 +29,10 @@
 }
 
 .placeholder-text {
-  color: #808080;
+  color: $color-table-secondary-text;
   font-size: 14px;
   font-weight: 500;
-  font-family: "Inter", sans-serif;
+  font-family: $font-main;
 }
 
 @media (max-width: 599px) {

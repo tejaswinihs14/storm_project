@@ -42,6 +42,14 @@ provide("searchTerm", searchTerm);
   flex-direction: column;
 }
 
+// Mobile: below 600px
+@media screen and (max-width: 599px) {
+  .app-dimension-container {
+    width: 100%;
+    overflow-x: hidden;
+  }
+}
+
 // Tablet and up
 @media (min-width: 600px) {
   .app-dimension-container {

@@ -108,13 +108,14 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
+@import "../styles/_variables.scss";
+
 // MOBILE-FIRST STYLES (default)
 .navbar {
   width: 100vw;
   min-width: 0;
   padding: 0;
-
-  background: #fff;
+  background: $color-bg;
   box-shadow: none;
   position: relative;
   display: flex;
@@ -133,7 +134,7 @@ onBeforeUnmount(() => {
   height: 44px;
 }
 .logo-text {
-  color: #1a1a1a;
+  color: $color-text;
   height: 32px;
   width: 155px;
   margin-left: 8px;
@@ -184,16 +185,16 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 44px;
   padding-left: 40px;
-  border: 1px solid #ececec;
+  border: 1px solid $color-navbar-border;
   border-radius: 6px;
   font-size: 15px;
   outline: none;
-  background: #fff;
+  background: $color-bg;
   transition: border 0.2s;
-  color: #000;
-  font-family: inherit;
+  color: $color-text;
+  font-family: $font-main;
   &:focus {
-    border-color: #b3b3ff;
+    border-color: $color-secondary;
   }
 }
 .search-btn {
@@ -204,8 +205,8 @@ onBeforeUnmount(() => {
   border-radius: 4px;
   padding: 12px 24px;
   gap: 4px;
-  background: #605dec;
-  color: #fff;
+  background: $color-primary;
+  color: $color-bg;
   border: none;
   font-size: 14px;
   font-weight: 500;
@@ -214,8 +215,9 @@ onBeforeUnmount(() => {
   transition: background 0.2s;
   cursor: pointer;
   white-space: nowrap;
+  font-family: $font-main;
   &:hover {
-    background: #344293;
+    background: $color-navbar-btn-hover;
   }
 }
 .navbar-right {
@@ -265,7 +267,7 @@ onBeforeUnmount(() => {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background: #fff;
+    background: $color-bg;
     box-sizing: border-box;
     padding: 0;
     position: relative;
@@ -284,6 +286,8 @@ onBeforeUnmount(() => {
     height: 31.83px;
     width: 154.93px;
     margin-left: 0;
+    color: $color-text;
+    font-family: $font-main;
   }
   .hamburger-menu {
     display: none;
@@ -342,8 +346,8 @@ onBeforeUnmount(() => {
         height: 18px;
       }
       .username {
-        color: #605dec;
-        font-family: Inter;
+        color: $color-primary;
+        font-family: $font-main;
         font-weight: 400;
         font-size: 14px;
         line-height: 20px;
@@ -359,8 +363,8 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 60px;
   right: 16px;
-  background: #fff;
-  border: 1px solid #ececec;
+  background: $color-bg;
+  border: 1px solid $color-navbar-border;
   border-radius: 8px;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
   z-index: 1001;
@@ -379,12 +383,13 @@ onBeforeUnmount(() => {
   background: none;
   border: none;
   font-size: 15px;
-  color: #605dec;
+  color: $color-primary;
+  font-family: $font-main;
   cursor: pointer;
   transition: background 0.2s;
   &:hover,
   &:focus {
-    background: #f2f2ff;
+    background: $color-navbar-hover;
   }
 }
 .dropdown-icon {

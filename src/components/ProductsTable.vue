@@ -244,6 +244,8 @@ const filteredProducts = computed(() => {
 </script>
 
 <style scoped lang="scss">
+@import "../styles/_variables.scss";
+
 .products-container {
   position: relative;
   width: 100%;
@@ -264,8 +266,8 @@ const filteredProducts = computed(() => {
   margin-right: auto;
   overflow-x: auto;
   border-radius: 8px;
-  border: 1px solid #e4e4ef;
-  background: #fff;
+  border: 1px solid $color-border;
+  background: $color-bg;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -278,7 +280,7 @@ const filteredProducts = computed(() => {
   height: auto;
   border-collapse: separate;
   border-spacing: 0;
-  background: #fff;
+  background: $color-bg;
   table-layout: fixed;
   box-sizing: border-box;
   border-radius: 8px;
@@ -288,18 +290,19 @@ const filteredProducts = computed(() => {
 
 th,
 td {
-  background: #fff;
-  box-shadow: 0px -1px 0px 0px #e4e4ef inset;
+  background: $color-bg;
+  box-shadow: 0px -1px 0px 0px $color-border inset;
   border: none;
   padding: 0;
   vertical-align: middle;
+  font-family: $font-main;
 }
 
 th {
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
-  color: #1a1a1a;
+  color: $color-text;
   height: 56px;
   text-align: center;
   vertical-align: middle;
@@ -309,8 +312,9 @@ td {
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  color: #1a1a1a;
+  color: $color-text;
   height: 56px;
+  font-family: $font-main;
 }
 
 .cell-id {
@@ -346,14 +350,15 @@ td {
 .product-title {
   font-weight: 400;
   font-size: 14px;
-  color: #1a1a1a;
+  color: $color-text;
   line-height: 20px;
+  font-family: $font-main;
 }
 
 .product-serial {
   font-weight: 400;
   font-size: 12px;
-  color: #808080;
+  color: $color-table-secondary-text;
   line-height: 20px;
 }
 
@@ -368,23 +373,24 @@ td {
   min-width: 83px;
   min-height: 28px;
   text-align: center;
+  font-family: $font-main;
 }
 
 .status-green {
-  background: #ebf6eb;
-  color: #31aa27;
+  background: $color-status-green-bg;
+  color: $color-status-green-text;
 }
 .status-orange {
-  background: #fff4e4;
-  color: #e99518;
+  background: $color-status-orange-bg;
+  color: $color-status-orange-text;
 }
 .status-red {
-  background: #fff0f0;
-  color: #f93232;
+  background: $color-status-red-bg;
+  color: $color-status-red-text;
 }
 .status-blue {
-  background: #ededfe;
-  color: #605dec;
+  background: $color-status-blue-bg;
+  color: $color-primary;
 }
 
 .table-title {
@@ -402,7 +408,7 @@ td {
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
-  color: #1a1a1a;
+  color: $color-text;
 }
 
 .results-count {
@@ -411,13 +417,13 @@ td {
   font-weight: 400;
   font-size: 12px;
   line-height: 20px;
-  color: #808080;
+  color: $color-table-secondary-text;
   margin-left: 10px;
 }
 
 .loading-message {
   text-align: center;
-  color: #605dec;
+  color: $color-primary;
   font-size: 18px;
   height: 56px;
   vertical-align: middle;
@@ -426,14 +432,15 @@ td {
 
 .not-found-message {
   text-align: center;
-  color: #aaa;
+  color: $color-table-muted-text;
   font-size: 18px;
   height: 56px;
   padding: 16px 8px;
+  font-family: $font-main;
 }
 
 .border-right {
-  border-right: 1px solid #e4e4ef !important;
+  border-right: 1px solid $color-border !important;
 }
 
 .sortable {
@@ -459,8 +466,7 @@ td {
 @media screen and (max-width: 599px) {
   .products-table-container {
     width: 320px;
-    margin-left: 26px;
-    margin-right: 8px;
+    margin: 0 auto;
     padding: 0;
     overflow-x: auto;
     overflow-y: visible;
@@ -518,7 +524,7 @@ td {
 @media screen and (max-width: 339px) {
   .products-table-container {
     width: 280px;
-    margin-left: 26px;
+    margin: 0 auto;
     padding: 0;
     overflow-x: auto;
     overflow-y: visible;
@@ -623,8 +629,8 @@ th.cell-product {
   display: inline-block;
   width: 24px;
   height: 24px;
-  border: 3px solid #e4e4ef;
-  border-top: 3px solid #605dec;
+  border: 3px solid $color-border;
+  border-top: 3px solid $color-primary;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-right: 10px;

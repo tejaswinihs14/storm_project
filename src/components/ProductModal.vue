@@ -60,13 +60,15 @@ function handleImageError() {
 }
 </script>
 <style scoped lang="scss">
+@import "../styles/_variables.scss";
+
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
+  /* background: rgba(0, 0, 0, 0.3); */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,7 +77,7 @@ function handleImageError() {
 .modal-content {
   width: 684px;
   height: 616px;
-  background: #ffffff;
+  background: $color-modal-bg;
   border-radius: 8px;
   padding: 40px;
   box-sizing: border-box;
@@ -83,7 +85,7 @@ function handleImageError() {
   flex-direction: column;
   gap: 16px;
   position: relative;
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.12);
+  /* box-shadow: 0 4px 32px rgba(0, 0, 0, 0.12); */
 }
 .modal-close {
   position: absolute;
@@ -106,12 +108,12 @@ function handleImageError() {
   min-height: 24px;
 }
 .modal-title {
-  font-family: "Inter", sans-serif;
+  font-family: $font-main;
   font-weight: 700;
   font-size: 20px;
   line-height: 120%;
   letter-spacing: 0%;
-  color: #1a1a1a;
+  color: $color-text;
   width: 400px;
   height: 24px;
   text-align: left;
@@ -130,7 +132,7 @@ function handleImageError() {
   align-items: center;
   justify-content: center;
   margin-top: 17px;
-  background: #ffffff;
+  background: $color-modal-bg;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -138,7 +140,7 @@ function handleImageError() {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background: #ffffff;
+  background: $color-modal-bg;
   transition: opacity 0.3s ease;
 }
 .modal-features-desc {
@@ -146,10 +148,10 @@ function handleImageError() {
   height: 365px;
   margin-top: 20px;
   padding-bottom: 0px;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: $font-secondary;
   line-height: 25px;
   letter-spacing: 0%;
-  color: #000;
+  color: $color-text;
   display: flex;
   flex-direction: column;
   font-size: 12px;
@@ -179,11 +181,11 @@ function handleImageError() {
   border-radius: 4px;
   padding: 12px 24px;
   gap: 4px;
-  background: #f9f9fb;
-  color: #1a1a1a;
+  background: $color-secondary;
+  color: $color-text;
   border: none;
   font-size: 14px;
-  font-family: "Inter", sans-serif;
+  font-family: $font-main;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s;
@@ -196,7 +198,7 @@ function handleImageError() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f9f9fb;
+  background: $color-secondary;
   border-radius: 8px;
 }
 
@@ -204,8 +206,8 @@ function handleImageError() {
   display: inline-block;
   width: 40px;
   height: 40px;
-  border: 4px solid #e4e4ef;
-  border-top: 4px solid #605dec;
+  border: 4px solid $color-border;
+  border-top: 4px solid $color-primary;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -220,15 +222,35 @@ function handleImageError() {
 }
 
 @media (max-width: 600px) {
+  .modal {
+    top: 97px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    max-width: 390px;
+    margin: 0 auto;
+    position: fixed;
+    background: $color-bg;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: auto;
+  }
   .modal-content {
-    width: 95vw;
-    max-width: 98vw;
+    width: 100vw;
+    max-width: 390px;
     min-width: unset;
-    height: auto;
     min-height: unset;
-    padding: 16px 8px 16px 8px;
-    border-radius: 8px;
+    height: auto;
+    border-radius: 0;
+    padding: 16px 8px;
+    box-sizing: border-box;
     gap: 8px;
+    background: $color-bg;
+    display: flex;
+    flex-direction: column;
   }
   .modal-header {
     min-width: unset;
@@ -262,6 +284,7 @@ function handleImageError() {
     padding: 0 8px;
   }
   .modal-footer {
+    justify-content: center;
     padding: 0 8px;
   }
   .modal-close {
@@ -272,10 +295,19 @@ function handleImageError() {
     padding: 4px;
   }
   .modal-close-btn {
-    width: 80px;
-    height: 36px;
-    font-size: 13px;
-    padding: 8px 16px;
+    margin: 0 auto;
+    display: block;
+    width: 358px;
+    height: 44px;
+    font-size: 14px;
+    padding: 12px 24px;
+    background: $color-secondary;
+    border-radius: 4px;
+    color: $color-text;
+    font-family: $font-main;
+    font-weight: 500;
+    border: none;
+    box-shadow: none;
   }
 }
 
@@ -342,11 +374,14 @@ function handleImageError() {
   }
 
   .modal-footer {
+    justify-content: center;
     padding: 0 4px;
     margin-top: 12px;
   }
 
   .modal-close-btn {
+    margin: 0 auto;
+    display: block;
     width: 80px;
     height: 36px;
     padding: 8px 16px;
