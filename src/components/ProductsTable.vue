@@ -458,10 +458,17 @@ td {
 /* MOBILE: below 600px */
 @media screen and (max-width: 599px) {
   .products-table-container {
+    width: 320px;
     margin-left: 26px;
     margin-right: 8px;
     padding: 0;
-    width: 320px;
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+  .products-table {
+    width: 100%;
+    min-width: 0;
+    font-size: 14px;
   }
 
   .table-title {
@@ -471,11 +478,6 @@ td {
     margin-left: 26px;
     text-align: center;
     gap: 10px;
-  }
-
-  .products-table {
-    width: 100%;
-    font-size: 14px;
   }
 
   .cell-id,
@@ -517,10 +519,13 @@ td {
   .products-table-container {
     width: 280px;
     margin-left: 26px;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: visible;
   }
-
   .products-table {
-    width: 280px;
+    width: 100%;
+    min-width: 0;
   }
 
   .cell-product {
