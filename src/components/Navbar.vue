@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-@import "../styles/_variables.scss";
+@use "../styles/_variables.scss" as *;
 
 // MOBILE-FIRST STYLES (default)
 .navbar {
